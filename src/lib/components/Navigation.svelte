@@ -14,7 +14,7 @@
                         <rect width="8.29163" height="8.29163" fill="white" transform="translate(5.38956 12.4622)"/>
                     </clipPath>
                 </defs>
-            </svg>                   
+            </svg>          
             <span class="text-2xl lg:text-[1.75rem] font-semibold text-primary">ToadPass</span>    
         </a>
         <ul class="hidden md:flex md:flex-row items-center md:gap-6 lg:gap-12 text-primary font-bold text-md">
@@ -29,10 +29,10 @@
             </li>
         </ul>
         <div class="hidden md:flex items-center md:gap-3 lg:gap-6">
-            <a href="/sign-in" class="text-primary hover:text-hover font-bold px-4 text-lg underline underline-offset-2 transition ease-in-out duration-150">
+            <a href="/auth/sign-in" class="text-primary hover:text-hover font-bold px-4 text-lg underline underline-offset-2 transition ease-in-out duration-150">
                 Login
             </a>
-            <a href="/sign-up" class="bg-primary hover:bg-opacity-90 text-white font-semibold py-2 px-4 rounded-md transition ease-in-out duration-150">
+            <a href="/auth/sign-up" class="bg-primary hover:bg-opacity-90 text-white font-semibold py-2 px-4 rounded-md transition ease-in-out duration-150">
                 Sign-up
             </a>
         </div>
