@@ -1,7 +1,7 @@
 <script lang="ts">
 
 </script>
-<div class="container mx-auto mt-14 max-screen-xl w-full lg:w-3/4 px-3 md:px-0">
+<div class="container mx-auto mt-14 w-full lg:w-3/4 px-3 md:px-0">
     <nav class="flex justify-between items-center">
         <a class="flex flex-row gap-1.5 items-center" href="/">
             <svg class="h-5 w-5 text-primary lg:mt-1" stroke="currentColor" stroke-width="0" viewBox="0 0 20 25" fill="none" xmlns="http://www.w3.org/2000/svg">
