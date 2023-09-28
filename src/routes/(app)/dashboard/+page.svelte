@@ -1,6 +1,7 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
+    console.log("aa");
 </script>
 <div>
-    Dashboard
+    <span class="text-primary">aaaaaaaaaaaaaabb</span>
 </div>
