@@ -35,11 +35,28 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
   
   /// protected routes here
+  if (event.url.pathname.startsWith("/auth/set-secret")) {
+    const session = await event.locals.getSession()
+    if (!session) throw redirect(303, "/auth/sign-up")
+
+    const userId = session.user.id
+    const { data: secret } = await event.locals.supabase.from("user_master").select("password").eq("user_id", userId)
+    if (secret instanceof Array && secret[0]) throw redirect(303, "/dashboard")
+  }
+
+  // logic for dashboard
+
   if (event.url.pathname.startsWith("/dashboard")) {
     const session = await event.locals.getSession()
-    // it should be 404 I feel like, but I cannot use 404 so this will do
-    console.log(session)
     if (!session) throw redirect(303, "/auth/sign-up")
+
+    const userId = session.user.id
+    const { data: secret } = await event.locals.supabase.from("user_master").select("password").eq("user_id", userId)
+    // checking if user has a secret set before we allow him to perform operations within the
+    // dashboard
+    //
+    
+    if (secret instanceof Array && !secret[0]) throw redirect(303, "/auth/set-secret")
   }
 
   /// ----> END
