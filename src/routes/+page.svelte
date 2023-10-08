@@ -31,12 +31,12 @@
     </div>
 </section>
 <section class="bg-primary">
-    <div class="container mx-auto mt-16 py-24 lg:w-3/4">
-        <h2 class="font-bold text-white text-7xl">Three steps from heaven</h2>
-        <div class="py-8 sm:py-12">
-            <div class="flex flex-col md:flex-row gap-12 md:grid-cols-3 sm:items-center md:gap-12">
+    <div class="container mx-auto mt-16 py-24 flex flex-col justify-center items-center w-full h-full">
+        <h2 class="font-bold text-white text-6xl text-center">Three steps from heaven</h2>
+        <div class="py-8 sm:py-12 flex p-4">
+            <div class="flex gap-12 md:grid-cols-3 sm:items-center md:gap-12 max-lg:flex-col">
                 <!-- First card -->
-                <div class="bg-white rounded-md px-6 py-6 md:py-8 h-full md:h-80 w-1/2 md:w-full mx-auto md:mx-0">
+                <div class="bg-white rounded-md px-6 py-6 h-full w-96 mx-auto md:mx-0 max-md:block max-lg:w-full">
                     <div class="flex justify-start items-center gap-5">
                         <svg width="24" height="24" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_17_229)">
@@ -60,7 +60,7 @@
                 </div>
                 <!-- End of first card-->
                 <!-- Second card -->
-                <div class="bg-transparent border-2 border-white rounded-md px-6 py-8 w-1/2 md:w-full mx-auto md:mx-0">
+                <div class="bg-transparent border-2 border-white rounded-md px-6 py-8 w-96 mx-auto md:mx-0 max-lg:w-full">
                     <div class="flex justify-start items-center gap-5">
                         <svg width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19 26.9166C18.1601 26.9166 17.3547 26.583 16.7608 25.9892C16.167 25.3953 15.8333 24.5898 15.8333 23.75C15.8333 21.9925 17.2425 20.5833 19 20.5833C19.8399 20.5833 20.6453 20.9169 21.2392 21.5108C21.833 22.1047 22.1667 22.9101 22.1667 23.75C22.1667 24.5898 21.833 25.3953 21.2392 25.9892C20.6453 26.583 19.8399 26.9166 19 26.9166ZM28.5 31.6666V15.8333H9.5V31.6666H28.5ZM28.5 12.6666C29.3399 12.6666 30.1453 13.0003 30.7392 13.5941C31.333 14.188 31.6667 14.9935 31.6667 15.8333V31.6666C31.6667 32.5065 31.333 33.312 30.7392 33.9058C30.1453 34.4997 29.3399 34.8333 28.5 34.8333H9.5C8.66015 34.8333 7.85469 34.4997 7.26083 33.9058C6.66696 33.312 6.33333 32.5065 6.33333 31.6666V15.8333C6.33333 14.0758 7.7425 12.6666 9.5 12.6666H11.0833V9.49998C11.0833 7.40035 11.9174 5.38671 13.4021 3.90205C14.8867 2.41739 16.9004 1.58331 19 1.58331C20.0396 1.58331 21.0691 1.78808 22.0296 2.18593C22.9901 2.58378 23.8628 3.16692 24.5979 3.90205C25.3331 4.63718 25.9162 5.50991 26.314 6.4704C26.7119 7.4309 26.9167 8.46035 26.9167 9.49998V12.6666H28.5ZM19 4.74998C17.7402 4.74998 16.532 5.25042 15.6412 6.14122C14.7504 7.03202 14.25 8.2402 14.25 9.49998V12.6666H23.75V9.49998C23.75 8.2402 23.2496 7.03202 22.3588 6.14122C21.468 5.25042 20.2598 4.74998 19 4.74998Z" fill="white"/>
@@ -79,7 +79,7 @@
                 </div>
                 <!-- End of second card-->
                 <!-- Third card -->
-                <div class="bg-white rounded-md px-6 py-6 md:py-8 h-full md:h-80 w-1/2 md:w-full mx-auto md:mx-0">
+                <div class="bg-white rounded-md px-6 py-6 h-full w-96 mx-auto md:mx-0 max-md:block max-md:w-full max-lg:w-full">
                     <div class="flex justify-start items-center gap-5">
                         <svg width="24" height="24" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_17_229)">

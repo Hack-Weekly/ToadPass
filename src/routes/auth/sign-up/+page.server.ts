@@ -35,14 +35,26 @@ export const actions: Actions = {
     // queries ensuring that if something fails everything fails, meaning nothing can fail at all
     // this way we can push and set master password without worrying about wether A passes and B doesnt
 
-    const { error: err } = await supabase.auth.signUp({
+    const { error: err, data } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${url.origin}/auth/callback`,
       }
     })
-    
+    if (data.user) {
+        const username = data?.user.email.split("@")[0]
+        const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=0D8ABC&color=fff&size=128}`
+        const { error: e } = await supabase.from('profiles').insert({
+            user_id: data?.user.id,
+            username: username,
+            email: data?.user.email,
+            avatar: avatarUrl,
+            created_at: new Date(),
+            updated_at: new Date(),
+        })
+    }
+  
     if (err) {
       return fail(err.status as number, { message: err.message, success: false, email, error: "supabase" })
     }
