@@ -92,7 +92,7 @@
                         />
                     </label>
                 </div>
-                
+               
                 <div class="flex items-center justify-between w-full p-2">
                     <a href="/auth/sign-in" class="flex mb-3 items-center font-bold gap-1 text-primary hover:text-hover transition duration-200">
                         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

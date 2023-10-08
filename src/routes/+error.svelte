@@ -11,7 +11,11 @@
             <p
               class="text-5xl font-light leading-normal"
             >{$page.error?.message}</p>
-          <p class="mb-8">But dont worry, you can find plenty of other things on our homepage.</p>
+            {#if $page.status === 404}
+                <p class="mb-8">But dont worry, you can find plenty of other things on our homepage.</p>
+            {:else}
+                <p class="mb-8">Whoops... it seems like something unexpected happened on our end.</p>
+            {/if}
           
           <a href="/" class="px-4 inline py-2 text-md font-medium leading-5 shadow text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none bg-primary hover:bg-opacity-90">back to homepage</a>
     </div>
