@@ -29,13 +29,26 @@ export const actions: Actions = {
     if (password.length < 8) return fail(400, { message: "Password must be at least 8 characters long", error: "password" });
     if (password !== confirm_password) return fail(400, { message: "Passwords do not match", error: "confirm_password" })
 
-    const { error: err } = await supabase.auth.signUp({
+    const { error: err, data } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${url.origin}/auth/callback`,
       }
     })
+    if (data.user) {
+        const username = data?.user.email.split("@")[0]
+        const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=0D8ABC&color=fff&size=128}`
+        const { error: e } = await supabase.from('profiles').insert({
+            user_id: data?.user.id,
+            username: username,
+            email: data?.user.email,
+            avatar: avatarUrl,
+            created_at: new Date(),
+            updated_at: new Date(),
+        })
+    }
+    
     if (err) {
       return fail(err.status as number, { message: err.message, success: false, email, error: "supabase" })
     }
