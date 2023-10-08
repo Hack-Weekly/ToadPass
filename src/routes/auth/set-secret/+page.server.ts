@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import { fail } from "@sveltejs/kit"
+import { fail, redirect } from "@sveltejs/kit"
 import type { Actions } from "@sveltejs/kit"
 
 // So UI guys I know deadline is literally tomorrow but here is the deal,
@@ -18,7 +18,25 @@ export const actions: Actions = {
     // it will be "master" we had planned
     const formData = await request.formData()
     const secret = formData.get("secret") as string
+    const verifySecret = formData.get("verify_secret") as string
 
+    let uppercase: Boolean = false
+    let number: Boolean = false
+    for (let i = 0; i < secret.length; i++) {
+        if(secret[i] === " ") return fail(400, { message: "Master password cannot contain spaces" })
+
+        if (secret[i] === secret[i].toUpperCase()) {
+            uppercase = true;
+        }
+        if (!isNaN(parseInt(secret[i]))) {
+            number = true;
+        }
+    }
+
+    if (!uppercase) return fail(400, { message: "Master password must contain at least one uppercase character", success: false, error: "password" });
+    if (!number) return fail(400, { message: "Master password must contain at least one number", success: false, error: "password" });
+    if (secret.length < 8) return fail(400, { message: "Master password must be at least 8 characters long", success: false, error: "password" });
+    if (secret !== verifySecret) return fail(400, { message: "Master passwords do not match", success: false, error: "matching_passwords" } )
     const salt = 12
 
     const secretHash = bcrypt.hashSync(secret, salt)
@@ -32,7 +50,13 @@ export const actions: Actions = {
 
     if (error) {
       console.log(error.code)
+      // 42501 is RLS (row level security) error code
+      if (error.code == "42501") return fail(400, { message: "Failed creating master password. Try again later!", success: false, error: "supabase" }  )
+
       return fail(400, { message: error.message, success: false, error: "supabase" }  )
     }
+    
+    throw redirect(303, "/dashboard")
+
   }
 }

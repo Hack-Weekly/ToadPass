@@ -46,6 +46,15 @@
                 <h2 style="word-spacing: 2px;" class=" mb-4 text-4xl font-bold text-[#2E2E2E]">Secure with ToadPass</h2>
                 
             </div>
+            {#if $page.form?.success}
+                <div role="alert" class="rounded border-s-4 border-green-500 bg-green-50 p-4">
+                <strong class="block font-medium text-green-800"> Success </strong>
+              
+                <p class="mt-2 text-sm text-green-700">
+                    {$page.form.message}
+                </p>
+            </div>
+            {/if}
             {#if $page.form?.error}
             <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4">
                 <strong class="block font-medium text-red-800"> Something went wrong </strong>
