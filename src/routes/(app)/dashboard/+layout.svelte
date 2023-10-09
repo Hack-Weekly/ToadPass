@@ -1,15 +1,18 @@
 <script lang="ts">
     import { page } from "$app/stores";
+    import { enhance } from "$app/forms";
     import type { IUser } from '$lib/types/user.d.ts'
     import type { LayoutData } from './$types';
+    import AddPasswordMenu from "$lib/components/AddPasswordMenu.svelte";
     export let data: LayoutData;
     let user: IUser;
     if (data.user) {
         // @ts-ignore
         user = data.user;
     }
-
+    let modal = false
     let showMenu = false
+    let showRightMenu = false
 </script>
 
 <button data-drawer-target="separator-sidebar" data-drawer-toggle="separator-sidebar" aria-controls="separator-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-primary rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -60,7 +63,7 @@
        </ul>
        <div class="flex items-center justify-between p-2 ml-6 mt-10">
             <span class="text-sm font-medium text-[#34495E] text-opacity-50">CATEGORIES</span>
-            <svg class="mr-6" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg on:click={() => modal = !modal} class="mr-6 cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 12.998H13V17.998C13 18.2632 12.8946 18.5176 12.7071 18.7051C12.5196 18.8926 12.2652 18.998 12 18.998C11.7348 18.998 11.4804 18.8926 11.2929 18.7051C11.1054 18.5176 11 18.2632 11 17.998V12.998H6C5.73478 12.998 5.48043 12.8926 5.29289 12.7051C5.10536 12.5176 5 12.2632 5 11.998C5 11.7328 5.10536 11.4784 5.29289 11.2909C5.48043 11.1034 5.73478 10.998 6 10.998H11V5.998C11 5.73278 11.1054 5.47843 11.2929 5.29089C11.4804 5.10336 11.7348 4.998 12 4.998C12.2652 4.998 12.5196 5.10336 12.7071 5.29089C12.8946 5.47843 13 5.73278 13 5.998V10.998H18C18.2652 10.998 18.5196 11.1034 18.7071 11.2909C18.8946 11.4784 19 11.7328 19 11.998C19 12.2632 18.8946 12.5176 18.7071 12.7051C18.5196 12.8926 18.2652 12.998 18 12.998Z" fill="#34495E"/>
             </svg> 
        </div>
@@ -93,11 +96,38 @@
         </ul>
     </div>
  </aside>
- 
+ <AddPasswordMenu {showRightMenu} on:close={() => showRightMenu = !showRightMenu}/>
+ <div class="{modal ? 'relative z-30 block' : 'hidden'} " aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <form method="POST" use:enhance class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div class="">
+              <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <h3 class="text-2xl font-extrabold text-primary" id="modal-title">Create new category</h3>
+                <div class="mt-3 w-full flex flex-col gap-y-3">
+                    <input type="hidden" name="type" value="type_category"/>
+                    <label for="category" class="font-bold text-md text-primary">Category name:</label>
+                    <input type="text" class="bg-white text-primary text-md w-full py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" name="category" id="category" placeholder="Enter a category name"/>
+                    {#if $page.form?.error}<small class="text-red-500 text-md ml-1">{$page.form.message}</small>{/if}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <button type="submit" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-opacity-90 transition ease-in-out duration-150 sm:ml-3 sm:w-auto">Create</button>
+            <button on:click={() => modal = !modal} type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-[#E8F0FF] px-3 py-2 text-sm font-semibold text-primary shadow-sm hover:bg-opacity-90 transition ease-in-out duration-150 sm:mt-0 sm:w-auto">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
  <div class="p-4 sm:ml-64">
     <div class="container mx-auto px-14 mt-3">
         <div class="flex items-center justify-between">
-            <button class="bg-primary hover:bg-opacity-90 text-white font-semibold flex items-center gap-2 py-2 px-4 rounded-md transition ease-in-out duration-150">
+            <button on:click={() => showRightMenu = !showRightMenu} class="bg-primary hover:bg-opacity-90 text-white font-semibold flex items-center gap-2 py-2 px-4 rounded-md transition ease-in-out duration-150">
                 <svg class="-ml-1" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill="#FFFFFF" d="M18 12.998H13V17.998C13 18.2632 12.8946 18.5176 12.7071 18.7051C12.5196 18.8926 12.2652 18.998 12 18.998C11.7348 18.998 11.4804 18.8926 11.2929 18.7051C11.1054 18.5176 11 18.2632 11 17.998V12.998H6C5.73478 12.998 5.48043 12.8926 5.29289 12.7051C5.10536 12.5176 5 12.2632 5 11.998C5 11.7328 5.10536 11.4784 5.29289 11.2909C5.48043 11.1034 5.73478 10.998 6 10.998H11V5.998C11 5.73278 11.1054 5.47843 11.2929 5.29089C11.4804 5.10336 11.7348 4.998 12 4.998C12.2652 4.998 12.5196 5.10336 12.7071 5.29089C12.8946 5.47843 13 5.73278 13 5.998V10.998H18C18.2652 10.998 18.5196 11.1034 18.7071 11.2909C18.8946 11.4784 19 11.7328 19 11.998C19 12.2632 18.8946 12.5176 18.7071 12.7051C18.5196 12.8926 18.2652 12.998 18 12.998Z"/>
                 </svg> 
