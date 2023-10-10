@@ -1,28 +1,6 @@
-import crypto from "node:crypto"
+import { aes256Encrypt } from "../crypto";
 import { fail, error, redirect } from "@sveltejs/kit";
 import type { Actions } from "@sveltejs/kit";
-
-const derivedKey = (key: string) => {
-  const salt = Buffer.from("Hessel_is_gae")
-  const keyLength = 32
-
-  // Derive the AES encryption key using PBKDF2
-  const derived = crypto.pbkdf2Sync(key, salt, 100000, keyLength, "sha256");
-  return derived
-}
-
-const aes256Encrypt = (key: Buffer, plainText: string) => {
-  console.log(plainText)
-  const intializationVector = crypto.randomBytes(16)
-  const cipher = crypto.createCipheriv("aes-256-cbc", key, intializationVector)
-  let encrypted = cipher.update(plainText, "utf-8", "hex")
-
-  encrypted += cipher.final("hex")
-
-  console.log(encrypted)
-
-  return encrypted
-}
 
 export const actions: Actions = {
   default: async ({ request, locals: { supabase, getSession } }) => {
@@ -44,13 +22,13 @@ export const actions: Actions = {
     //
     // encrypted should be the now encrypted password
 
-    const secretData = secret!.data![0].password
-    const key = derivedKey(secretData)
-    const encryptedPassword = aes256Encrypt(key, password)
-    const encryptedEmail = aes256Encrypt(key, email)
+    const key = secret!.data![0].password
+    console.log(key)
+    const encryptedPassword = aes256Encrypt(Buffer.from(key, "hex"), password)
+    const encryptedEmail = aes256Encrypt(Buffer.from(key, "hex"), email)
 
     const { error } = await supabase.from("credentials")
-                  .insert({ user_id: userId, email: encryptedEmail, password: encryptedPassword, personal_note, website, category: "Social" })
+                  .insert({ user_id: userId, email: encryptedEmail, password: encryptedPassword, personal_note, website, category: "09501080-113a-4641-9cfb-7ec9679e2656" })
     
     if (error) {
       console.error(error.code, error)

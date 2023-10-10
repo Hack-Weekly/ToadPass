@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt"
+import crypto from "crypto"
 import { fail, redirect } from "@sveltejs/kit"
 import type { Actions } from "@sveltejs/kit"
 
@@ -11,6 +12,15 @@ import type { Actions } from "@sveltejs/kit"
 // Only after the user sets the master will he be able to create passwords and what not
 // the user should be noticed of the importance of this, so im sorry this is late but
 // I hope we can do this.
+
+const derivedKey = (key: string) => {
+  const salt = Buffer.from("Hessel_is_gae")
+  const keyLength = 32
+
+  // Derive the AES encryption key using PBKDF2
+  const derived = crypto.pbkdf2Sync(key, salt, 100000, keyLength, "sha256");
+  return derived.toString("hex")
+}
 
 export const actions: Actions = {
   default: async ({ request, locals: { supabase, getSession } }) => {
@@ -45,7 +55,7 @@ export const actions: Actions = {
     const userId = session!.user.id
 
     const { error } = await supabase.from("user_master").insert({
-      password: secretHash, user_id: userId
+      password: derivedKey(secretHash), user_id: userId
     })
 
     if (error) {
