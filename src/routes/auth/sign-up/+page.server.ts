@@ -7,7 +7,7 @@ export const actions: Actions = {
     // returns a transformed object which expects
     // each key, value to be a string. Hence Record<string, string> with the "as" keyword we are telling the compiler
     // that we know that each key + value will be a string
-    const { email, password, confirm_password, secret } = Object.fromEntries(await request.formData()) as Record<string, string>
+    const { email, password, confirm_password } = Object.fromEntries(await request.formData()) as Record<string, string>
     if (!email) return fail(400, { message: 'Email is required', error: 'email' });
     if (!password) return fail(400, { message: "Password is required", error: "password" })
     if (!confirm_password) return fail(400, { message: "Password must be confirmed", error: "confirm_password" })
@@ -43,7 +43,8 @@ export const actions: Actions = {
       }
     })
     if (data.user) {
-        const username = data?.user.email.split("@")[0]
+        const userEmail = data!.user.email as string
+        const username = userEmail.split("@")[0]
         const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=0D8ABC&color=fff&size=128`
         const { error: e } = await supabase.from('profiles').insert({
             user_id: data?.user.id,

@@ -9,23 +9,23 @@
 </script>
 <aside id="separator-sidebar" class="{showRightMenu ? 'fixed top-0 right-0 z-50 w-96 h-screen border-l border-gray-50 transition-transform -translate-x-full sm:translate-x-0' : 'hidden w-0'}" aria-label="Sidebar">    
     <div class="h-full py-4 overflow-y-auto shadow-lg bg-white/90">
-        <form method="POST" use:enhance class="ml-6 mt-12 space-y-3">   
+        <form method="POST" action="/dashboard/operations/add-credentials" class="ml-6 mt-12 space-y-3">   
             <input type="hidden" name="type" value="type_password"/>
             <div class="flex flex-col gap-2 pr-2">
                 <label for="website" class="text-md font-semibold text-primary">Website</label>
                 <input type="text" name="website" id="default-search" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Add an URL">
             </div>
             <div class="flex flex-col gap-2">
-                <label for="website" class="text-md font-semibold text-primary">Email</label>
-                <input type="text" name="website" id="default-search" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Add an URL">
+                <label for="email" class="text-md font-semibold text-primary">Email</label>
+                <input type="text" name="email" id="email" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Add an URL">
             </div>
             <div class="flex flex-col gap-2">
-                <label for="website" class="text-md font-semibold text-primary">Username</label>
-                <input type="text" name="website" id="default-search" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Add an URL">
+                <label for="username" class="text-md font-semibold text-primary">Username</label>
+                <input type="text" name="username" id="username" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Add an URL">
             </div>
             <div class="flex flex-col gap-2">
                 <label for="password" class="text-md font-semibold text-primary">Password</label>
-                <input type="password" name="website" id="default-search" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Add an URL">
+                <input type="password" name="password" id="password" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Add an URL">
             </div>
             <div class="flex flex-col gap-2">
                 <label for="category" class="text-md font-semibold text-primary">Category</label>
