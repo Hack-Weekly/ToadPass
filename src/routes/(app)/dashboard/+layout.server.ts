@@ -20,6 +20,7 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } 
             avatar: data[0].avatar
         }
     }
+    const { data: categories } = await supabase.from('category').select('id, user_id, name').eq('user_id', session.user.id)
 
-    return { user}
+    return { user, categories }
 }

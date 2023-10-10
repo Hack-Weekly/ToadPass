@@ -6,9 +6,14 @@
     import AddPasswordMenu from "$lib/components/AddPasswordMenu.svelte";
     export let data: LayoutData;
     let user: IUser;
+    let categories: Array<string>;
     if (data.user) {
         // @ts-ignore
         user = data.user;
+    }
+    if (data.categories) {
+        // @ts-ignore
+        categories = data.categories;
     }
     let modal = false
     let showMenu = false
@@ -96,12 +101,12 @@
         </ul>
     </div>
  </aside>
- <AddPasswordMenu {showRightMenu} on:close={() => showRightMenu = !showRightMenu}/>
+ <AddPasswordMenu {showRightMenu} {categories} on:close={() => showRightMenu = !showRightMenu}/>
  <div class="{modal ? 'relative z-30 block' : 'hidden'} " aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <form method="POST" use:enhance class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <form method="POST" action="?/category" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div class="">
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
