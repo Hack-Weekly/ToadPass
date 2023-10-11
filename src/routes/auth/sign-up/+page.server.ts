@@ -7,7 +7,7 @@ export const actions: Actions = {
     // returns a transformed object which expects
     // each key, value to be a string. Hence Record<string, string> with the "as" keyword we are telling the compiler
     // that we know that each key + value will be a string
-    const { email, password, confirm_password, secret } = Object.fromEntries(await request.formData()) as Record<string, string>
+    const { email, password, confirm_password } = Object.fromEntries(await request.formData()) as Record<string, string>
     if (!email) return fail(400, { message: 'Email is required', error: 'email' });
     if (!password) return fail(400, { message: "Password is required", error: "password" })
     if (!confirm_password) return fail(400, { message: "Password must be confirmed", error: "confirm_password" })
@@ -30,7 +30,7 @@ export const actions: Actions = {
     if (password.length < 8) return fail(400, { message: "Password must be at least 8 characters long", error: "password" });
     if (password !== confirm_password) return fail(400, { message: "Passwords do not match", error: "confirm_password" })
    
-    // If we have time later, check if supabase supporst database tranasctions and put everything into
+    // If we have time later, check if supabase supports database tranasctions and put everything into
     // a transaction. If you do not know what a transaction is it is essentially a wrapper over other
     // queries ensuring that if something fails everything fails, meaning nothing can fail at all
     // this way we can push and set master password without worrying about wether A passes and B doesnt
@@ -43,8 +43,9 @@ export const actions: Actions = {
       }
     })
     if (data.user) {
-        const username = data?.user.email.split("@")[0]
-        const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=0D8ABC&color=fff&size=128}`
+        const userEmail = data!.user.email as string
+        const username = userEmail.split("@")[0]
+        const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=0D8ABC&color=fff&size=128`
         const { error: e } = await supabase.from('profiles').insert({
             user_id: data?.user.id,
             username: username,

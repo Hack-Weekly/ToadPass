@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit'
+import { redirect } from "@sveltejs/kit"
 import type { LayoutServerLoad } from './$types';
 
 
@@ -11,7 +11,8 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } 
     }
 
     const { data } = await supabase.from('profiles').select('user_id, username, avatar').eq('user_id', session.user.id)
-    let user;
+    let user
+    
     if (data) {
         user = {
             email: session.user.email,
@@ -21,5 +22,7 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } 
         }
     }
 
-    return { user}
+    const { data: categories } = await supabase.from('category').select('id, name').eq('user_id', session.user.id)
+
+    return { user, categories }
 }
