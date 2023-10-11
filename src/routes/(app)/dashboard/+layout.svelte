@@ -6,7 +6,7 @@
     import AddPasswordMenu from "$lib/components/AddPasswordMenu.svelte";
     export let data: LayoutData;
     let user: IUser;
-    let categories: Array<string>;
+    let categories: Array<{ id: string, name: string }> = []
     if (data.user) {
         // @ts-ignore
         user = data.user;
@@ -73,32 +73,14 @@
             </svg> 
        </div>
        <ul class="space-y-2 font-medium mt-3 text-primary">
-            <li>
-                <a href="#" class="flex items-center p-2 ml-6 rounded-lg group">
-                    <span class="">Shopping</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 ml-6 rounded-lg group">
-                    <span class="">Entertainment</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 ml-6 rounded-lg group">
-                    <span class="">News</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 ml-6 rounded-lg group">
-                    <span class="">Travels</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 ml-6 rounded-lg group">
-                    <span class="">Social Networks</span>
-                </a>
-            </li>
-        </ul>
+         {#each categories as { name, id }}
+           <li>
+              <a href="?cat={id}" data-sveltekit-reload class="flex items-center p-2 ml-6 rounded-lg group">
+                  <span class="">{ name }</span>
+              </a>
+          </li>
+         {/each}  
+       </ul>
     </div>
  </aside>
  <AddPasswordMenu {showRightMenu} {categories} on:close={() => showRightMenu = !showRightMenu}/>
@@ -106,7 +88,7 @@
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <form method="POST" action="?/category" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <form method="POST" action="?/category" use:enhance class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div class="">
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">

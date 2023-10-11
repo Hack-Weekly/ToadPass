@@ -11,7 +11,8 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } 
     }
 
     const { data } = await supabase.from('profiles').select('user_id, username, avatar').eq('user_id', session.user.id)
-    let user;
+    let user
+    
     if (data) {
         user = {
             email: session.user.email,
@@ -20,7 +21,8 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } 
             avatar: data[0].avatar
         }
     }
-    const { data: categories } = await supabase.from('category').select('id, user_id, name').eq('user_id', session.user.id)
+
+    const { data: categories } = await supabase.from('category').select('id, name').eq('user_id', session.user.id)
 
     return { user, categories }
 }

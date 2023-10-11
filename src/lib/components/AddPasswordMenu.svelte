@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { enhance } from "$app/forms";
     import { page } from "$app/stores";
     import { createEventDispatcher } from 'svelte'
     export let showRightMenu: Boolean
@@ -12,7 +13,7 @@
     <div class="h-full py-4 overflow-y-auto shadow-lg bg-white/90">
            
         
-        <form method="POST" action="?/password" class="ml-6 mt-12 space-y-3">   
+        <form method="POST" action="?/password" use:enhance class="ml-6 mt-12 space-y-3">   
             <input type="hidden" name="type" value="type_password"/>
             <div class="flex flex-col gap-2 pr-2">
                 <label for="website" class="text-md font-semibold text-primary">Website</label>

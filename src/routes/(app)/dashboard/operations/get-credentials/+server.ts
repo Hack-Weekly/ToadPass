@@ -1,8 +1,20 @@
-import { aes256Decrypt } from "../crypto";
+import { aes256Decrypt } from "$lib/server/crypto";
 import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "@sveltejs/kit";
 
-export const GET: RequestHandler = async ({ locals: { supabase, getSession } }) => {
+const iterateOverSelected = (key: string, iv: string, values: any): any => {
+  for (const credential of values) {
+    const plainTextEmail = aes256Decrypt(Buffer.from(key, "hex"), Buffer.from(iv, "base64"), credential.email)
+    const plainTextPassword = aes256Decrypt(Buffer.from(key, "hex"), Buffer.from(iv, "base64"), credential.password)
+
+    credential.email = plainTextEmail
+    credential.password = plainTextPassword
+  }
+
+  return values
+}
+
+export const GET: RequestHandler = async ({ locals: { supabase, getSession }, url }) => {
   const session = await getSession()
 
   const userId = session!.user.id
@@ -13,22 +25,26 @@ export const GET: RequestHandler = async ({ locals: { supabase, getSession } }) 
   // So now ripper with the retrieved credentials run the decryption process, below i will
   // pull the master key that you can use to accomplish this.
 
-  const secret = await supabase.from("user_master").select("password").eq("user_id", userId)
+  const secret = await supabase.from("user_master").select("password, iv").eq("user_id", userId)
   const key = secret!.data![0].password
+  const iv = secret!.data![0].iv
+  const categoryId = url.searchParams.get("cat")
 
-  const values = await supabase.from("credentials").select("*").eq("user_id", userId)  
+  if (categoryId && categoryId !== "none") {
+    const { error: err, data: values } = await supabase.from("credentials").select("*").eq("user_id", userId).eq("category", categoryId)
 
-  if (values.data) {
-    for (const credential of values.data) {
-      const plainTextEmail = aes256Decrypt(Buffer.from(key, "hex"), credential.email)
-      const plainTextPassword = aes256Decrypt(Buffer.from(key, "hex"), credential.password)
+    if (err) return json({ error: err.message })
 
-      credential.email = plainTextEmail
-      credential.password = plainTextPassword
-    }
-    return json({ data: values.data})
+    const data = iterateOverSelected(key, iv, values)
+    return json({ data })
   }
-  console.log(values)
 
-  return new Response(null)
+  // --- > if category is not specified
+
+  const { error: err, data: values } = await supabase.from("credentials").select("*").eq("user_id", userId)
+
+    if (err) return json({ error: err.message })
+
+    const data = iterateOverSelected(key, iv, values)
+    return json({ data })
 }

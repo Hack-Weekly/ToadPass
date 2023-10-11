@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt"
 import crypto from "crypto"
+import { initVector } from "$lib/server/crypto"
 import { fail, redirect } from "@sveltejs/kit"
 import type { Actions } from "@sveltejs/kit"
 
@@ -55,7 +56,7 @@ export const actions: Actions = {
     const userId = session!.user.id
 
     const { error } = await supabase.from("user_master").insert({
-      password: derivedKey(secretHash), user_id: userId
+      password: derivedKey(secretHash), iv: initVector(), user_id: userId
     })
 
     if (error) {
