@@ -3,7 +3,7 @@
     import { page } from "$app/stores";
     import { createEventDispatcher } from 'svelte'
     export let showRightMenu: Boolean
-    export let categories: Array<string>
+    export let categories: Array<any>
     const dispatch = createEventDispatcher()
     function close () {
         dispatch('close')
@@ -17,7 +17,7 @@
             <input type="hidden" name="type" value="type_password"/>
             <div class="flex flex-col gap-2 pr-2">
                 <label for="website" class="text-md font-semibold text-primary">Website</label>
-                <input type="text" name="website" id="default-search" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Enter an URL">
+                <input type="text" name="website" id="default-search" class="bg-white text-primary text-md w-[90%] py-2.5 px-3 rounded-lg border border-gray-300 outline-none focus:ring-0" placeholder="Enter a name or URL">
                 {#if $page.form?.error == 'website'}
                     <small class="text-red-500 text-sm ml-1">{$page.form?.message}</small>
                 {/if}

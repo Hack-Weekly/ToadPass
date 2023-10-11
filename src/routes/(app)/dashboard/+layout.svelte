@@ -18,6 +18,7 @@
     let modal = false
     let showMenu = false
     let showRightMenu = false
+    let showMasterPwd = false
 </script>
 
 <button data-drawer-target="separator-sidebar" data-drawer-toggle="separator-sidebar" aria-controls="separator-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-primary rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -74,11 +75,21 @@
        </div>
        <ul class="space-y-2 font-medium mt-3 text-primary">
          {#each categories as { name, id }}
-           <li>
+           <li class="flex flex-row justify-between items-center">
               <a href="?cat={id}" data-sveltekit-reload class="flex items-center p-2 ml-6 rounded-lg group">
                   <span class="">{ name }</span>
               </a>
-          </li>
+                <a href="/dashboard/operations/delete-category?catId={id}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-9 text-red-400 cursor-pointer" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 7l16 0" />
+                        <path d="M10 11l0 6" />
+                        <path d="M14 11l0 6" />
+                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                </a>
+            </li>
          {/each}  
        </ul>
     </div>
